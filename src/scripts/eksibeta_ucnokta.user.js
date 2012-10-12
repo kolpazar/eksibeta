@@ -3,10 +3,11 @@
 // @description    ek$i sozluk beta'nin basliklar kismini standart eksi sozluk gorunumune benzetip uc noktalari ekler.
 // @namespace      https://github.com/kolpazar
 // @include        http://beta.eksisozluk.com/*
+// @include        https://beta.eksisozluk.com/*
 // @run-at         document-start
 // @updateUrl      https://github.com/kolpazar/eksibeta/raw/master/src/scripts/eksibeta_ucnokta.user.js
 // @downloadUrl    https://github.com/kolpazar/eksibeta/raw/master/src/scripts/eksibeta_ucnokta.user.js
-// @version        1.0.6
+// @version        1.0.7
 // ==/UserScript==
 
 function eksiRestyleTopics() {
