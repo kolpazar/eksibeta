@@ -6,7 +6,7 @@
 // @run-at         document-start
 // @updateUrl      https://github.com/kolpazar/eksibeta/raw/master/src/scripts/eksibeta_ucnokta.user.js
 // @downloadUrl    https://github.com/kolpazar/eksibeta/raw/master/src/scripts/eksibeta_ucnokta.user.js
-// @version        1.0.5
+// @version        1.0.6
 // ==/UserScript==
 
 function eksiRestyleTopics() {
