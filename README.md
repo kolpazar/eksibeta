@@ -21,3 +21,8 @@ ekşi sözlük'ün yeni arayüzünü ufak değişikliklerle daha kullanışlı v
 
 <h3>ayarlar</h3>
 aparat ayarlarını ekşi sözlük'e kullanıcı girişi yaptıysanız sağ üstteki "ben" menüsündeki "antika" seçeneğinden yapabilirsiniz. kullanıcı girişi yapmadıysanız bu seçenek "giriş" ve "kayıt ol" düğmelerinin sağında yer alacaktır.
+
+<h3>güncelleme</h3>
+aparat firefox ve chrome'da otomatik olarak güncellenecektir. elle güncelleme kontrolü yapmak için:<br/>
+<b>firefox</b> eklenti yöneticisi'nde kullanıcı betikleri kısmında aparata sağ tıklayıp güncellemeleri kontrol edebilirsiniz.<br/>
+<b>chrome</b> eklentiler sayfasında "geliştirici modu"nu açarak güncellemeleri kontrol edebilirsiniz.
