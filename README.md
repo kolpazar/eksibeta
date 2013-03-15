@@ -16,7 +16,7 @@ ekşi sözlük'ün yeni arayüzünü ufak değişikliklerle daha kullanışlı v
 <h3>kurulum</h3>
 <b>firefox için:</b> önce <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">greasemonkey</a> eklentisi kurulmalıdır. eklenti kurulduktan sonra aşağıdaki bağlantıya tıklayarak aparatı kurabilirsiniz.<br/>
 <a href="https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js">ekşi sözlük antika aparatı - firefox</a><br/><br/>
-<b>chrome için:</b> aparat chrome için eklenti olarak paketlenmiştir. aşağıdaki bağlantıdan indireceğiniz .crx dosyasını chrome'un eklentiler sayfasına (<a href="chrome://chrome/extensions/">chrome://chrome/extensions/</a>) sürükleyip bırakmanız gerekmektedir.<br/>
+<b>chrome için:</b> aparat chrome için eklenti olarak paketlenmiştir. aşağıdaki bağlantıdan indireceğiniz .crx dosyasını chrome'un menü - araçlar - eklentiler sayfasına (<a href="chrome://chrome/extensions/">chrome://chrome/extensions/</a>) sürükleyip bırakmanız gerekmektedir.<br/>
 <a href="http://eyyam.org/eksibeta/chrome/eksi_sozluk_antika.crx">ekşi sözlük antika aparatı - chrome</a><br/>
 
 <h3>ayarlar</h3>
