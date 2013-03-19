@@ -10,7 +10,7 @@
 // @grant       GM_setValue
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.2
+// @version     1.0.3
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -156,7 +156,7 @@ function EksiBetaAparati() {
     
     function removeAdBefore() {
         if (betaConfig.removeAd) {
-            eksiAddStyle(".ad-banner728-top, #scriptId1 { display: none }");
+            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad { display: none }");
         }
     }
 
@@ -169,6 +169,8 @@ function EksiBetaAparati() {
                 $("#return-to-innocence").remove();
             }
             $(".ad-banner728-top").remove();
+            $("#eksisozluk_sitegeneli_pageskin").remove();
+            $("#eksisozluk_sitegeneli_logo").remove();
         }
     }
     
