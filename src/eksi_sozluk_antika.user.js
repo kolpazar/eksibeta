@@ -10,7 +10,7 @@
 // @grant       GM_setValue
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.3
+// @version     1.0.4
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -33,6 +33,7 @@ function EksiBetaAparati() {
         entryOptionsOnHover: true,
         transparentHeader: true,
         fullWidth: true,
+        headerRight: false,
         theme: "herzamanki_yeni"
     };
     
@@ -156,7 +157,7 @@ function EksiBetaAparati() {
     
     function removeAdBefore() {
         if (betaConfig.removeAd) {
-            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad { display: none }");
+            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad, #video { display: none }");
         }
     }
 
@@ -266,12 +267,15 @@ function EksiBetaAparati() {
         }
         if (betaConfig.transparentHeader) {
             eksiAddStyle("body > header { background-color: " + currentTheme.backgroundColor + " } #sub-navigation { background-color: transparent }");
-            eksiAddStyle("#sub-navigation a { color: " + currentTheme.link + "; } #sub-navigation a:hover { color: " + currentTheme.linkHover + " !important; background-color: " + currentTheme.linkHoverBack + " } ");
+            eksiAddStyle("#sub-navigation > ul > li > a { color: " + currentTheme.link + "; } #sub-navigation a:hover { color: " + currentTheme.linkHover + " !important; background-color: " + currentTheme.linkHoverBack + " } ");
             eksiAddStyle("#a3-toggle, #top-navigation > ul > li > a { color: " + currentTheme.link + "; }");
             
         }
         if (betaConfig.fullWidth) {
             eksiAddStyle("#container { width: auto; max-width: none; padding: 10px 20px 0 20px } html > body > header #top-bar { width: auto; padding: 0 20px }");
+        }
+        if (betaConfig.headerRight) {
+            eksiAddStyle("html.no-touch > body > header { left: 250px; z-index: 10; } html.no-touch #index-section { top: 0; }");
         }
     }
     
@@ -321,7 +325,7 @@ function EksiBetaAparati() {
     function createSettingsMenuEntry() {
         var showConf = $('<li><a id="aparat-config" href="#">antika</a></li>');
         if ($("#top-navigation").hasClass("loggedin")) {
-            $("#top-navigation ul li ul li.seperated").before(showConf);  
+            $("#top-navigation ul .dropdown ul li.separated").before(showConf);  
         } else {
             $("#top-navigation ul").append(showConf);
         }
@@ -346,6 +350,7 @@ function EksiBetaAparati() {
         fields += '</select></div>';
         fields += configCheckbox("fullWidth", "pencerenin tamamına genişlet, yanlarda boşluk kalmasın");
         fields += configCheckbox("transparentHeader", "üst çubuk şeffaf olsun");
+        fields += configCheckbox("headerRight", "üst çubuk sadece içeriğin üzerinde dursun, sol frame yukardan başlasın");
         fields += '</fieldset>';
         fields += '<fieldset class="vertical"><legend>sol frame</legend>';
         fields += configCheckbox("denseTopics", "başlıklar arasındaki boşlukları azalt");
@@ -416,7 +421,7 @@ function EksiBetaAparati() {
     
     function restyleTopicsBefore() {
         if (betaConfig.topicActivityInBrackets) {
-            eksiAddStyle(".topic-list.partial li.numbered > a > small { color: " + currentTheme.text + "; font-size: 0.9em; position: static } #partial-index .topic-list li small::before { content: '(' } #partial-index .topic-list li small::after { content: ')' } ");
+            eksiAddStyle(".topic-list.partial li > a > small { color: " + currentTheme.text + "; font-size: 0.9em; position: static } #partial-index .topic-list li small::before { content: '(' } #partial-index .topic-list li small::after { content: ')' } ");
         }
         if (betaConfig.ellipsisForToday) {
             eksiAddStyle(".topic-list.partial li > a.topictoday { visibility: hidden; margin-left: 4px } .topic-list.partial li:hover > a.topictoday { visibility: visible }");
