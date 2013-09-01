@@ -10,7 +10,7 @@
 // @grant       GM_setValue
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.4
+// @version     1.0.5
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -193,11 +193,14 @@ function EksiBetaAparati() {
             if (title.length !== 0) {
                 $.getJSON("https://ajax.googleapis.com/ajax/services/search/images?callback=?&v=1.0&rsz=1&q=" + title.text().trim(), function(data) {
                     if (data.responseData.results.length > 0) {
-                        var imageEl = $("<a href=\"" + unescape(data.responseData.results[0].url) + "\" target=\"_blank\"><img src=\"" + unescape(data.responseData.results[0].tbUrl) + "\" /></a>");
-                        imageEl.css({'float':'right'});
-                        imageEl.prependTo($("#topic"));
+                        var imageEl = $("<a href=\"" + unescape(data.responseData.results[0].url) + "\" target=\"_blank\"><img src=\"" + unescape(data.responseData.results[0].tbUrl).replace("http://", "https://") + "\" /></a>");
+                        imageEl.css({'float':'right', 'margin-left': '15px'});
+                        //imageEl.prependTo($("#topic"));
+                        imageEl.insertBefore("#content-section");
+                        //$("#content-section").css({'top': '-60px'});
                         $(".pager").css({'clear':'both'});
-                        $("#entry-list").css({'clear':'both'});
+                        //$("#entry-list").css({'clear':'both'});
+                        $("#content-section").css({'clear':'both'});
                     }
                 });
             }
@@ -257,7 +260,7 @@ function EksiBetaAparati() {
     function restyleContent() {
         eksiAddStyle("#entry-list { margin-top: 0 }");
         if (betaConfig.expandContent) {
-            eksiAddStyle("#content-section { width: auto; float: none } #index-section { width: 240px } #main { margin-left: 240px }");
+            eksiAddStyle("#content-section { width: auto; float: none; clear: both; position: relative; z-index: 5; } #index-section { width: 240px } #main { margin-left: 240px }");
             if (!betaConfig.removeAside) {
                 eksiAddStyle("#content-section { margin-right: 320px } #aside { width: 300px; float: none; position: absolute; top: 0; right: 0 }");
             }
