@@ -10,7 +10,7 @@
 // @grant       GM_setValue
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.5
+// @version     1.0.6
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -157,7 +157,7 @@ function EksiBetaAparati() {
     
     function removeAdBefore() {
         if (betaConfig.removeAd) {
-            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad, #video { display: none }");
+            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad, .ads, #video { display: none }");
         }
     }
 
@@ -196,7 +196,7 @@ function EksiBetaAparati() {
                         var imageEl = $("<a href=\"" + unescape(data.responseData.results[0].url) + "\" target=\"_blank\"><img src=\"" + unescape(data.responseData.results[0].tbUrl).replace("http://", "https://") + "\" /></a>");
                         imageEl.css({'float':'right', 'margin-left': '15px'});
                         //imageEl.prependTo($("#topic"));
-                        imageEl.insertBefore("#content-section");
+                        imageEl.insertBefore("#title");
                         //$("#content-section").css({'top': '-60px'});
                         $(".pager").css({'clear':'both'});
                         //$("#entry-list").css({'clear':'both'});
@@ -222,6 +222,9 @@ function EksiBetaAparati() {
     }
     
     function restyleTopics() {
+        if (betaConfig.removeAd) {
+            $("a.sponsored").parent().remove();
+        }
         if (betaConfig.ellipsisForToday || betaConfig.topicActivityInBrackets) {
             $("#partial-index li").each(function() {
                 var topic = $(this);
@@ -258,7 +261,7 @@ function EksiBetaAparati() {
     }
 
     function restyleContent() {
-        eksiAddStyle("#entry-list { margin-top: 0 }");
+        eksiAddStyle("#entry-list { margin-top: 20px; }");
         if (betaConfig.expandContent) {
             eksiAddStyle("#content-section { width: auto; float: none; clear: both; position: relative; z-index: 5; } #index-section { width: 240px } #main { margin-left: 240px }");
             if (!betaConfig.removeAside) {
@@ -275,7 +278,7 @@ function EksiBetaAparati() {
             
         }
         if (betaConfig.fullWidth) {
-            eksiAddStyle("#container { width: auto; max-width: none; padding: 10px 20px 0 20px } html > body > header #top-bar { width: auto; padding: 0 20px }");
+            eksiAddStyle("#container { width: auto; max-width: none; padding: 10px 20px 0 20px } html > body > header #top-bar { width: auto; padding: 0 20px } #content-body { width: 100%; padding-right: 20px; }");
         }
         if (betaConfig.headerRight) {
             eksiAddStyle("html.no-touch > body > header { left: 250px; z-index: 10; } html.no-touch #index-section { top: 0; }");
@@ -344,7 +347,8 @@ function EksiBetaAparati() {
         return '<div><label class="checkbox"><input type="checkbox" id="EksiBeta_' + configName + '"' + (betaConfig[configName] ? ' checked="checked"' : '') + '/>' + desc + '</label></div>';
     }
     function showConfig() {
-        $("#content-section").empty();
+        $("#content").empty();
+        $("#content").append($('<section id="content-header-section"><h1 id="title" style="margin-bottom: 20px;"><a>ekşi sözlük antika aparatı ayarları</a></h1></section>'));
         var fields = '<fieldset class="vertical"><legend>genel</legend>';
         fields += '<div><label for="EksiBetaTheme">tema</label><select id="EksiBeta_theme">';
         for(var themeid in themes) {
@@ -354,6 +358,7 @@ function EksiBetaAparati() {
         fields += configCheckbox("fullWidth", "pencerenin tamamına genişlet, yanlarda boşluk kalmasın");
         fields += configCheckbox("transparentHeader", "üst çubuk şeffaf olsun");
         fields += configCheckbox("headerRight", "üst çubuk sadece içeriğin üzerinde dursun, sol frame yukardan başlasın");
+        fields += configCheckbox("removeAd", "reklamları kaldır");
         fields += '</fieldset>';
         fields += '<fieldset class="vertical"><legend>sol frame</legend>';
         fields += configCheckbox("denseTopics", "başlıklar arasındaki boşlukları azalt");
@@ -371,8 +376,8 @@ function EksiBetaAparati() {
         fields += '</fieldset>';
 
         fields += '<div class="actions"><button class="primary" id="aparat-save">kaydet</button></div>';
-        var configDiv = $('<div id="topic"><h1 id="title" style="margin-bottom: 20px;">ekşi sözlük antika aparatı ayarları</h1>' + fields + '</div>');
-        $("#content-section").append(configDiv);
+
+        $("#content").append('<section id="content-section">' + fields + '</section>');
         $("#aparat-save").click(finishConfig);
     }
     
