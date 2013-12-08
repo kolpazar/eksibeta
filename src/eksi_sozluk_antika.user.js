@@ -10,7 +10,7 @@
 // @grant       GM_setValue
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.6
+// @version     1.0.7
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -172,6 +172,7 @@ function EksiBetaAparati() {
             $(".ad-banner728-top").remove();
             $("#eksisozluk_sitegeneli_pageskin").remove();
             $("#eksisozluk_sitegeneli_logo").remove();
+            $("html").removeClass("ad-sitewide");
         }
     }
     
@@ -347,8 +348,8 @@ function EksiBetaAparati() {
         return '<div><label class="checkbox"><input type="checkbox" id="EksiBeta_' + configName + '"' + (betaConfig[configName] ? ' checked="checked"' : '') + '/>' + desc + '</label></div>';
     }
     function showConfig() {
-        $("#content").empty();
-        $("#content").append($('<section id="content-header-section"><h1 id="title" style="margin-bottom: 20px;"><a>ekşi sözlük antika aparatı ayarları</a></h1></section>'));
+        $("#content-body").empty();
+        $("#content-body").append($('<section id="content-header-section"><h1 id="title" style="margin-bottom: 20px;"><a>ekşi sözlük antika aparatı ayarları</a></h1></section>'));
         var fields = '<fieldset class="vertical"><legend>genel</legend>';
         fields += '<div><label for="EksiBetaTheme">tema</label><select id="EksiBeta_theme">';
         for(var themeid in themes) {
@@ -377,7 +378,7 @@ function EksiBetaAparati() {
 
         fields += '<div class="actions"><button class="primary" id="aparat-save">kaydet</button></div>';
 
-        $("#content").append('<section id="content-section">' + fields + '</section>');
+        $("#content-body").append('<section id="content-section">' + fields + '</section>');
         $("#aparat-save").click(finishConfig);
     }
     
