@@ -1,8 +1,7 @@
 {
    "name": "ekşi sözlük antika aparatı",
-   "version": "1.0.7",
+   "version": "1.1.1",
    "description": "yeni ekşi sözlüğü kısmen antikalaştırmaya yarar.",
-   "update_url": "http://eyyam.org/eksibeta/chrome/eksi_sozluk_antika_update.xml",
    "icons": { "48": "icon48.png",
               "128": "icon128.png" },
    "manifest_version": 2,

@@ -8,9 +8,10 @@
 // @run-at      document-start
 // @grant       GM_getValue
 // @grant       GM_setValue
+// @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
 // @updateUrl   https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
 // @downloadUrl https://github.com/kolpazar/eksibeta/raw/master/src/eksi_sozluk_antika.user.js
-// @version     1.0.7
+// @version     1.1.1
 // ==/UserScript==
 
 function EksiBetaAparati() {
@@ -34,7 +35,9 @@ function EksiBetaAparati() {
         transparentHeader: true,
         fullWidth: true,
         headerRight: false,
-        theme: "herzamanki_yeni"
+        theme: "herzamanki_yeni",
+        showEntryNumbers: true,
+        entriesPerPage: 25
     };
     
     var defaultTheme = "herzamanki_yeni";
@@ -157,7 +160,7 @@ function EksiBetaAparati() {
     
     function removeAdBefore() {
         if (betaConfig.removeAd) {
-            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad, .ads, #video { display: none }");
+            eksiAddStyle(".ad-banner728-top, #scriptId1, #eksisozluk_sitegeneli_pageskin, .under-logo-ad, .ads, .ad-medyanet, #video { display: none }");
         }
     }
 
@@ -289,8 +292,10 @@ function EksiBetaAparati() {
     function moveEntryNumbers() {
         if (betaConfig.entryNumbersOnLeftSide) {
             eksiAddStyle("#entry-list { padding-left: 35pt; position: relative }");
-            eksiAddStyle("#entry-list > li:before { color: " + currentTheme.text + "; font-size: 1em; border-width: 0px; top: 0; position: absolute; left: -52pt; text-align: right; width: 45pt; content: attr(value) \".\"; }");
+            eksiAddStyle("#entry-list > li > .entrynr { color: " + currentTheme.text + "; font-size: 1em; border-width: 0px; position: absolute; left: -52pt; text-align: right; width: 45pt; }");
             eksiAddStyle("#entry-list > li:not(:first-child) { margin-top: 10px !important; } #entry-list > li:not(:last-child) { border-bottom: 1px solid " + currentTheme.listShadow + "; } #entry-list > li { padding-bottom: 10px; }");
+        } else {
+            eksiAddStyle("#entry-list > li > .entrynr { color: " + currentTheme.text + "; font-size: 0.9em; }");
         }
     }
     
@@ -332,7 +337,7 @@ function EksiBetaAparati() {
     function createSettingsMenuEntry() {
         var showConf = $('<li><a id="aparat-config" href="#">antika</a></li>');
         if ($("#top-navigation").hasClass("loggedin")) {
-            $("#top-navigation ul .dropdown ul li.separated").before(showConf);  
+            $("#top-navigation ul .dropdown ul li.separated").first().before(showConf);
         } else {
             $("#top-navigation ul").append(showConf);
         }
@@ -372,8 +377,9 @@ function EksiBetaAparati() {
         fields += configCheckbox("imageSearch", "başlık adı ile google görseller'de arama yap ve bulunan görseli kenarda göster (resözlük gibi)");
         fields += '</fieldset>';
         fields += '<fieldset class="vertical"><legend>entry\'ler</legend>';
+        fields += configCheckbox("showEntryNumbers", "entry numaraları göster");
         fields += configCheckbox("entryNumbersOnLeftSide", "entry numaralarını entry'lerin soluna çek");
-        fields += configCheckbox("entryOptionsOnHover", "oylama, mesaj atma gibi düğmeleri sadece imleç entry\'nin üzerindeyken göster");
+        fields += configCheckbox("entryOptionsOnHover", "mesaj altı düğmelerini (paylaşma, oylama) sadece imleç entry\'nin üzerindeyken göster");
         fields += '</fieldset>';
 
         fields += '<div class="actions"><button class="primary" id="aparat-save">kaydet</button></div>';
@@ -466,6 +472,43 @@ function EksiBetaAparati() {
         restyleTopics();
     }
     
+    function addEntryNumbers() {
+        if (betaConfig.showEntryNumbers) {
+            var showAll = $("a.showall");
+            var previousEntryCount = 0;
+            if (showAll.length) {
+                previousEntryCount = parseInt(showAll[0].innerHTML);
+            } else {
+                var entriesPerPage = 10;
+                if ($("#top-navigation").hasClass("loggedin")) {
+                    checkEntriesPerPage();
+                    entriesPerPage = betaConfig.entriesPerPage;
+                } 
+                var pageNr = $("#topic > .pager").first().data("currentpage");
+                if (pageNr === undefined)
+                    pageNr = 1;
+                previousEntryCount = (pageNr - 1) * entriesPerPage;
+            }
+            $("#entry-list > li > .content").each(function(index) {
+                var entryNr = previousEntryCount + index + 1;
+                $(this).before("<span class='entrynr'>" + entryNr + ".</span>");
+            });
+        }
+    }
+
+    function checkEntriesPerPage() {
+        var entriesInCurrentPage = $("#entry-list > li").length;
+        var pager = $("#topic > .pager").first();
+        if (pager.length) {
+            var currentPageIsComplete = $("#topic > .pager").first().data("currentpage") < $("#topic > .pager").first().data("pagecount");
+            if (currentPageIsComplete && (entriesInCurrentPage != betaConfig.entriesPerPage)) {
+                betaConfig.entriesPerPage = entriesInCurrentPage;
+                alert(betaConfig.entriesPerPage);
+                saveConfig();
+            }
+        }
+    }
+
     function pageBeforeLoad() {
         loadConfig();
         selectTheme();
@@ -483,10 +526,8 @@ function EksiBetaAparati() {
             return;
         }
         afterLoadDone = true;
-        if (typeof $ === "undefined") {
-            $ = window.jQuery || unsafeWindow.jQuery;
-        }
         restyleTopicsAfter();
+        addEntryNumbers();
         removeAdAfter();
         moveChannels();
         removeAsideAfter();
